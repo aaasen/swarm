@@ -5,14 +5,23 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import co.devrandom.model.objects.Enemy;
+import co.devrandom.model.objects.PhysicsObject;
+import co.devrandom.model.objects.Player;
+
 public class CollisionHandler implements ContactListener{
 	//private class Collision
 	
 	@Override
 	public void beginContact(Contact arg0) {
+		PhysicsObject a = (PhysicsObject) arg0.getFixtureA().getBody().getUserData();
+		PhysicsObject b = (PhysicsObject) arg0.getFixtureB().getBody().getUserData();
 		
-		System.out.println(arg0.getFixtureA().getBody().getUserData().toString());
-//		System.out.println("Collision");
+		if (a instanceof Enemy || b instanceof Enemy) {
+			if (a instanceof Player || b instanceof Player) {
+				System.out.println("enemy and player collided");
+			}
+		}
 	}
 
 	@Override
