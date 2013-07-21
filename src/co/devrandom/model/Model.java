@@ -12,8 +12,8 @@ import org.jbox2d.dynamics.World;
 
 import co.devrandom.assets.level.LevelLoader;
 import co.devrandom.main.GameState;
-import co.devrandom.model.events.CollisionHandler;
 import co.devrandom.model.events.TimedEvent;
+import co.devrandom.model.events.collision.CollisionListener;
 import co.devrandom.model.objects.Enemy;
 import co.devrandom.model.objects.PhysicsObject;
 import co.devrandom.model.objects.Player;
@@ -28,7 +28,7 @@ public class Model implements Runnable {
 	private World world;
 	private PriorityBlockingQueue<TimedEvent> events;
 	private Player player;
-	private CollisionHandler collisionHandler;
+	private CollisionListener collisionHandler;
 
 	public Model() {
 		elapsedTime = 0l;
@@ -37,7 +37,7 @@ public class Model implements Runnable {
 		bodyMap = new HashMap<Body, PhysicsObject>();
 		world = new World(GameState.DEFAULT_GRAVITY);
 		events = new PriorityBlockingQueue<TimedEvent>();
-		collisionHandler = new CollisionHandler();
+		collisionHandler = new CollisionListener();
 		world.setContactListener(collisionHandler);
 	}
 

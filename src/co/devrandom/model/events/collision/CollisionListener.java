@@ -1,4 +1,4 @@
-package co.devrandom.model.events;
+package co.devrandom.model.events.collision;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -9,7 +9,7 @@ import co.devrandom.model.objects.Enemy;
 import co.devrandom.model.objects.PhysicsObject;
 import co.devrandom.model.objects.Player;
 
-public class CollisionHandler implements ContactListener{
+public class CollisionListener implements ContactListener{
 	//private class Collision
 	
 	@Override
