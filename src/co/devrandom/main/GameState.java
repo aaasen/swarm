@@ -11,7 +11,7 @@ public class GameState {
 	/*
 	 * File path settings
 	 */
-	public static final String NAME = "Iris";
+	public static final String NAME = "Swarm";
 	public static final String ASSET_PATH = "assets/";
 	public static final String FONT_PATH = ASSET_PATH + "fonts/";
 	public static final String IMG_PATH = ASSET_PATH + "textures/";
@@ -21,8 +21,9 @@ public class GameState {
 	/*
 	 * Game window settings
 	 */
-	public static int WINDOW_WIDTH = 1200;
-	public static int WINDOW_HEIGHT = 700;
+	public static final int WINDOW_WIDTH = 800;
+	public static final int WINDOW_HEIGHT = 600;
+	public static final boolean FULLSCREEN = false;
 	public static final boolean ANTIALIAS = true;
 	public static final int FPS = 60; 
 	

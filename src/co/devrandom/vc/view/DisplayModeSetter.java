@@ -13,7 +13,7 @@ public class DisplayModeSetter {
 	public static void setFullScreen() {
 		Dimension d = getScreenSize();
 		
-		setDisplayMode(d.width, d.height, true);
+		setDisplayMode(GameState.WINDOW_WIDTH, GameState.WINDOW_HEIGHT, GameState.FULLSCREEN);
 	}
 	
 	public static Dimension getScreenSize() {
@@ -97,7 +97,7 @@ public class DisplayModeSetter {
 					+ fullscreen + e);
 		}
 		
-		GameState.WINDOW_HEIGHT = height;
-		GameState.WINDOW_WIDTH = width;
+//		GameState.WINDOW_HEIGHT = height;
+//		GameState.WINDOW_WIDTH = width;
 	}
 }
