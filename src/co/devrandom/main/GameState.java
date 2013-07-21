@@ -51,7 +51,8 @@ public class GameState {
 	public enum State {
 		RUNNING,
 		PAUSED,
-		MAIN_MENU;
+		MAIN_MENU,
+		GAME_OVER;
 	}
 	
 	private static State currentState;
@@ -72,6 +73,14 @@ public class GameState {
 		return currentState == State.RUNNING;
 	}
 	
+	public static boolean isPaused() {
+		return currentState == State.PAUSED;
+	}
+	
+	public static boolean isGameOver() {
+		return currentState == State.GAME_OVER;
+	}
+	
 	public static void startGame() {
 		currentState = State.RUNNING;
 	}
@@ -83,7 +92,7 @@ public class GameState {
 			currentState = State.PAUSED;
 	}
 	
-	public static boolean isPaused() {
-		return currentState == State.PAUSED;
+	public static void endGame() {
+		currentState = State.GAME_OVER;
 	}
 }

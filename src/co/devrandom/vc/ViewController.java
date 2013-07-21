@@ -28,7 +28,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.openal.SoundStore;
@@ -105,6 +104,9 @@ public class ViewController implements Runnable {
 				renderTexture(textures, new Vector(GameState.WINDOW_WIDTH / 2f,
 						GameState.WINDOW_HEIGHT / 2f), 0f);
 
+			} else if (GameState.isGameOver()){
+				Display.destroy();
+				System.exit(0);
 			} else {
 
 				glPushMatrix();

@@ -72,8 +72,7 @@ public class Player extends PhysicsObject implements Destructible {
 	
 	@Override
 	public void onDestroy() {
-		System.out.println("Game over");
-		GameState.pauseUnpause();
+		GameState.endGame();
 	}
 	
 	@Override
