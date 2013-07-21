@@ -1,10 +1,6 @@
 package co.devrandom.model.objects;
 
 public interface Destructible {
-
-	public float getHealth();
-	
-	public boolean isDead();
 	
 	/**
 	 * Damages the Destructible and returns whether or not it is now dead
@@ -12,6 +8,10 @@ public interface Destructible {
 	 * @param amount
 	 * @return
 	 */
-	public boolean damage(float amount);
+	public void damage(float amount);
+	
+	public void destroy();
+	
+	public void onDestroy();
 	
 }

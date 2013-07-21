@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.BodyType;
 
 import co.devrandom.assets.textures.TextureAttributes;
 import co.devrandom.assets.textures.TextureList;
+import co.devrandom.main.GameState;
 import co.devrandom.model.Model;
 import co.devrandom.model.objects.util.BodyDefBuilder;
 import co.devrandom.model.objects.util.FixtureDefBuilder;
@@ -65,18 +66,23 @@ public class Player extends PhysicsObject implements Destructible {
 	}
 
 	@Override
-	public float getHealth() {
-		return health;
-	}
-
-	@Override
-	public boolean isDead() {
-		return health <= 0;
+	public void destroy() {
+		this.getModel().removePhysicsObject(this);
 	}
 	
 	@Override
-	public boolean damage(float amount) {
+	public void onDestroy() {
+		System.out.println("Game over");
+		GameState.pauseUnpause();
+	}
+	
+	@Override
+	public void damage(float amount) {
 		health -= amount;
-		return isDead();
+		
+		if (health <= 0) {
+			this.destroy();
+			this.onDestroy();
+		}
 	}
 }

@@ -30,8 +30,7 @@ public class CollisionHandler implements ContactListener{
 					enemy = (Enemy) a;
 				}
 				
-				System.out.println(player.getHealth());
-				System.out.println(player.damage(0.01f));
+				player.damage(0.1f);
 				
 			}
 		}
