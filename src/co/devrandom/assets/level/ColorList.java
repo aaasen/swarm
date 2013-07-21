@@ -1,12 +1,14 @@
 package co.devrandom.assets.level;
 
 import co.devrandom.model.objects.Block;
+import co.devrandom.model.objects.Enemy;
 import co.devrandom.model.objects.Player;
 import co.devrandom.model.objects.Wall;
 
 public enum ColorList {
 	WALL("000000", Wall.class),
 	BLOCK("00ff00", Block.class),
+	ENEMY("ff0000", Enemy.class),
 	PLAYER("0000ff", Player.class);
 
 	private String color;

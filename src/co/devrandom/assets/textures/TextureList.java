@@ -25,6 +25,7 @@ public enum TextureList {
 	PAUSE("pause.png", false),
 	PLAYER("player.png", false),
 	BLOCK("block.png", false),
+	ENEMY("enemy.png", false),
 	WALL("wall.png", false);
 
 	private String filePath;
