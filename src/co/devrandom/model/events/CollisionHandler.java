@@ -10,7 +10,9 @@ public class CollisionHandler implements ContactListener{
 	
 	@Override
 	public void beginContact(Contact arg0) {
-		//System.out.println("Collision");
+		
+		System.out.println(arg0.getFixtureA().getBody().getUserData().toString());
+//		System.out.println("Collision");
 	}
 
 	@Override

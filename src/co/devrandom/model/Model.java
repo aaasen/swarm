@@ -113,6 +113,8 @@ public class Model implements Runnable {
 
 	public void addPhysicsObject(PhysicsObject object) {
 		this.physicsObjects.add(object);
+		
+		object.getBody().setUserData(object);
 		this.bodyMap.put(object.getBody(), object);
 	}
 
