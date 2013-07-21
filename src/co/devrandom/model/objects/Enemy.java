@@ -10,11 +10,13 @@ import co.devrandom.model.objects.util.BodyDefBuilder;
 import co.devrandom.model.objects.util.FixtureDefBuilder;
 import co.devrandom.util.Vector;
 
-public class Enemy extends PhysicsObject {
+public class Enemy extends PhysicsObject implements Destructible {
 	private static final float DENSITY = 0.1f;
 	private static final float FRICTION = 1f;
 	private static final float RESTITUTION = 1f;
 	private static final float GRAVITY = 1f;
+	
+	private float health;
 	
 	private static final BodyDef BD = new BodyDefBuilder()
 		.type(BodyType.DYNAMIC)
@@ -30,5 +32,23 @@ public class Enemy extends PhysicsObject {
 		super(model, BodyDefBuilder.setPosition(BD, position),
 				FD.shape(PhysicsObject.makeBoxShape(size)).build(),
 				 new TextureAttributes(TextureList.ENEMY));
+		
+		health = size.x * size.y;
+	}
+	
+	@Override
+	public float getHealth() {
+		return health;
+	}
+
+	@Override
+	public boolean isDead() {
+		return health <= 0;
+	}
+	
+	@Override
+	public boolean damage(float amount) {
+		health -= amount;
+		return isDead();
 	}
 }

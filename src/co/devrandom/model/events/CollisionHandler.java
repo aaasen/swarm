@@ -19,7 +19,20 @@ public class CollisionHandler implements ContactListener{
 		
 		if (a instanceof Enemy || b instanceof Enemy) {
 			if (a instanceof Player || b instanceof Player) {
-				System.out.println("enemy and player collided");
+				Player player;
+				Enemy enemy;
+				
+				if (a instanceof Player) {
+					player = (Player) a;
+					enemy = (Enemy) b;
+				} else {
+					player = (Player) b;
+					enemy = (Enemy) a;
+				}
+				
+				System.out.println(player.getHealth());
+				System.out.println(player.damage(0.01f));
+				
 			}
 		}
 	}

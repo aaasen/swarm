@@ -11,7 +11,7 @@ import co.devrandom.model.objects.util.BodyDefBuilder;
 import co.devrandom.model.objects.util.FixtureDefBuilder;
 import co.devrandom.util.Vector;
 
-public class Player extends PhysicsObject {
+public class Player extends PhysicsObject implements Destructible {
 	private static final float MOVEMENT_SPEED = 1f;
 	private static final float SPRINT_MULTIPLIER = 2f;
 	
@@ -20,6 +20,8 @@ public class Player extends PhysicsObject {
 	private static final float RESTITUTION = 0.0001f;
 	private static final float GRAVITY = 1f;
 
+	private float health;
+	
 	private static final BodyDef BD = new BodyDefBuilder()
 		.type(BodyType.DYNAMIC)
 		.gravityScale(GRAVITY)
@@ -34,6 +36,8 @@ public class Player extends PhysicsObject {
 		super(model, BodyDefBuilder.setPosition(BD, position),
 				FD.shape(PhysicsObject.makeBoxShape(size)).build(),
 				 new TextureAttributes(TextureList.PLAYER));
+		
+		health = size.x * size.y;
 	}
 
 	public void friction(boolean on) {
@@ -58,5 +62,21 @@ public class Player extends PhysicsObject {
 	
 	public void moveRight(boolean sprinting) {
 		this.getBody().applyForceToCenter(new Vec2((sprinting ? SPRINT_MULTIPLIER : 1) * MOVEMENT_SPEED, 0));
+	}
+
+	@Override
+	public float getHealth() {
+		return health;
+	}
+
+	@Override
+	public boolean isDead() {
+		return health <= 0;
+	}
+	
+	@Override
+	public boolean damage(float amount) {
+		health -= amount;
+		return isDead();
 	}
 }
