@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
 import co.devrandom.assets.level.LevelLoader;
 import co.devrandom.main.GameState;
 import co.devrandom.model.events.CollisionHandler;
 import co.devrandom.model.events.TimedEvent;
+import co.devrandom.model.objects.Enemy;
 import co.devrandom.model.objects.PhysicsObject;
 import co.devrandom.model.objects.Player;
 
@@ -57,6 +57,12 @@ public class Model implements Runnable {
 			if (GameState.isModelRunning()) {
 				checkEvents();
 				try {
+					for (PhysicsObject object : physicsObjects) {
+						if (object instanceof Enemy) {
+							((Enemy) object).goTo(player.getPosition());
+						}
+					}
+					
 					world.step(GameState.TIME_STEP, GameState.VELOCITY_ITERATIONS,
 							GameState.POSITION_ITERATIONS);
 				} catch (ArrayIndexOutOfBoundsException e) {

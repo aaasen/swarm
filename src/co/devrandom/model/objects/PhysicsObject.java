@@ -103,6 +103,17 @@ public class PhysicsObject {
 			return new Vector[] { new Vector(-rad, -rad), new Vector(rad, rad) };
 		}
 	}
+	
+	public void goTo(Vector position) {
+		Vector force = position.minus(this.getPosition()).norm();
+		force = force.scale(0.01f);
+		
+		this.applyForceToCenter(force);
+	}
+	
+	public void applyForceToCenter(Vector force) {
+		getBody().applyForceToCenter(new Vec2(force.x, force.y));
+	}
 
 	public Model getModel() {
 		return this.model;
