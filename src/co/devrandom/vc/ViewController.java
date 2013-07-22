@@ -48,8 +48,8 @@ public class ViewController implements Runnable {
 	Model model;
 
 	Vector cameraLocation;
-	float cameraZoom; // 1 standard pixel = cameraZoom pixels at current scale.
-						// Thus, smaller number means farther away.
+	float cameraZoom = .05f; // 1 standard pixel = cameraZoom pixels at current scale.
+	// Thus, smaller number means farther away.
 
 	/*
 	 * FPS stuff
@@ -65,7 +65,6 @@ public class ViewController implements Runnable {
 	public ViewController(Model model) {
 		this.model = model;
 		cameraLocation = new Vector();
-		cameraZoom = .05f;
 	}
 
 	public void run() {
@@ -240,7 +239,7 @@ public class ViewController implements Runnable {
 						GameState.startGame();
 				}
 			}
-		}
+		} 
 	}
 
 	private void handleGameInput() {
@@ -249,7 +248,15 @@ public class ViewController implements Runnable {
 				if (Keyboard.getEventKey() == KeyPress.PAUSE.getKeyID()) {
 					GameState.pauseUnpause();
 				} else if (Keyboard.getEventKey() == KeyPress.FIRE.getKeyID()) {
-					Projectile proj = new Projectile(model, new Vector(-1f, -1f), new Vector(0.1f, 0.1f));
+					
+					Vector direction = this.getMousePositionInGame()
+							.minus(new Vector(model.getPlayer().getBody().getPosition()))
+							.norm();
+					
+					Projectile proj = new Projectile(model,
+							new Vector(model.getPlayer().getBody().getPosition()).plus(direction),
+							new Vector(0.05f, 0.05f));
+
 					model.addPhysicsObject(proj);
 				}
 			}
@@ -316,7 +323,6 @@ public class ViewController implements Runnable {
 		glLoadIdentity();
 	}
 
-	@SuppressWarnings("unused")
 	private Vector getMousePositionInGame() {
 		float x = Mouse.getX();
 		float y = Mouse.getY();
@@ -324,6 +330,7 @@ public class ViewController implements Runnable {
 		return cameraLocation
 				.scale(-1)
 				.plus(new Vector(x, -y).minus(new Vector(GameState.WINDOW_WIDTH / 2,
-						-GameState.WINDOW_HEIGHT / 2))).scale(1 / this.cameraZoom);
+						-GameState.WINDOW_HEIGHT / 2))).scale(1 / this.cameraZoom)
+						.scale(1 / GameState.SCALE);
 	}
 }
