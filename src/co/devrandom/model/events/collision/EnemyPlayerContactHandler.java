@@ -12,6 +12,9 @@ public class EnemyPlayerContactHandler extends BaseContactHandler {
 
 	@Override
 	public void onCollsion(PhysicsObject a, PhysicsObject b) {
+		Player player = (Player) (a instanceof Player ? a : b);
+		player.damage(0.01f);
+		
 		System.out.println("enemy and player collided");
 	}
 }

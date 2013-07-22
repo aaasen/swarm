@@ -39,6 +39,7 @@ import co.devrandom.assets.textures.TextureList;
 import co.devrandom.main.GameState;
 import co.devrandom.model.Model;
 import co.devrandom.model.objects.PhysicsObject;
+import co.devrandom.model.objects.Projectile;
 import co.devrandom.util.Vector;
 import co.devrandom.vc.controller.KeyPress;
 import co.devrandom.vc.view.DisplayModeSetter;
@@ -247,6 +248,9 @@ public class ViewController implements Runnable {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == KeyPress.PAUSE.getKeyID()) {
 					GameState.pauseUnpause();
+				} else if (Keyboard.getEventKey() == KeyPress.FIRE.getKeyID()) {
+					Projectile proj = new Projectile(model, new Vector(-1f, -1f), new Vector(0.1f, 0.1f));
+					model.addPhysicsObject(proj);
 				}
 			}
 		}

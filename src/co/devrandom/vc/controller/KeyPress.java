@@ -9,9 +9,10 @@ public enum KeyPress {
 	LEFT(Keyboard.KEY_A),
 	SPRINT(Keyboard.KEY_LSHIFT),
 	PING(Keyboard.KEY_P),
-	PAUSE(Keyboard.KEY_SPACE),
+	PAUSE(Keyboard.KEY_ESCAPE),
 	START(Keyboard.KEY_SPACE),
-	EXIT(Keyboard.KEY_ESCAPE);
+	EXIT(Keyboard.KEY_DELETE),
+	FIRE(Keyboard.KEY_SPACE);
 	
 	private int keyID;
 	
