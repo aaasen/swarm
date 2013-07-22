@@ -46,7 +46,11 @@ public class PhysicsObject {
 		this.texAttributes = texAttributes;
 		texAttributes.setSize(c2.minus(c1).scale(GameState.SCALE));
 	}
-	
+
+	public PhysicsObject(Model model, BodyDef bd, FixtureDef fixtures, TextureAttributes texAttributes) {
+		this(model, bd, new FixtureDef[] {fixtures}, texAttributes);
+	}
+
 	public Vec2[] getVertices() {
 		Vec2[] vertices = ((PolygonShape) body.getFixtureList().getShape()).getVertices();
 		// Why the hell do I need to do this.
@@ -55,11 +59,7 @@ public class PhysicsObject {
 			actualVertices[i] = vertices[i];
 		return actualVertices;
 	}
-
-	public PhysicsObject(Model model, BodyDef bd, FixtureDef fixtures, TextureAttributes texAttributes) {
-		this(model, bd, new FixtureDef[] {fixtures}, texAttributes);
-	}
-
+	
 	public TextureAttributes getTexAttributes() {
 		return texAttributes;
 	}

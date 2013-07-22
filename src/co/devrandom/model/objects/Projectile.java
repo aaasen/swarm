@@ -19,6 +19,7 @@ public class Projectile extends PhysicsObject {
 	private static final BodyDef BD = new BodyDefBuilder()
 		.type(BodyType.DYNAMIC)
 		.gravityScale(GRAVITY)
+		.bullet(true)
 		.build();
 	
 	private final static FixtureDefBuilder FD = new FixtureDefBuilder()

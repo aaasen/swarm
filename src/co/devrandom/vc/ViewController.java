@@ -257,6 +257,8 @@ public class ViewController implements Runnable {
 							new Vector(model.getPlayer().getBody().getPosition()).plus(direction),
 							new Vector(0.05f, 0.05f));
 
+					proj.applyForceToCenter(direction.scale(0.5f));
+					
 					model.addPhysicsObject(proj);
 				}
 			}
