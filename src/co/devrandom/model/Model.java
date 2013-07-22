@@ -15,6 +15,7 @@ import co.devrandom.main.GameState;
 import co.devrandom.model.events.TimedEvent;
 import co.devrandom.model.events.collision.ContactListener;
 import co.devrandom.model.events.collision.EnemyPlayerContactHandler;
+import co.devrandom.model.events.collision.ProjectileEnemyContactHandler;
 import co.devrandom.model.objects.Enemy;
 import co.devrandom.model.objects.PhysicsObject;
 import co.devrandom.model.objects.Player;
@@ -30,6 +31,7 @@ public class Model implements Runnable {
 	private PriorityBlockingQueue<TimedEvent> events;
 	private Player player;
 	private ContactListener collisionHandler;
+	private List<PhysicsObject> toDelete;
 
 	public Model() {
 		elapsedTime = 0l;
@@ -40,13 +42,15 @@ public class Model implements Runnable {
 		events = new PriorityBlockingQueue<TimedEvent>();
 		collisionHandler = new ContactListener();
 		collisionHandler.addListener(new EnemyPlayerContactHandler());
+		collisionHandler.addListener(new ProjectileEnemyContactHandler());
 		world.setContactListener(collisionHandler);
+		toDelete = Collections.synchronizedList(new ArrayList<PhysicsObject>());
 	}
 
 	public void run() {
-		LevelLoader loader = new LevelLoader(this, "block-field.svg");
+		LevelLoader loader = new LevelLoader(this, "arena.svg");
 		loader.loadObjects();
-		
+
 		while (true) {
 			lastFrame = System.currentTimeMillis();
 
@@ -58,13 +62,15 @@ public class Model implements Runnable {
 			}
 			if (GameState.isModelRunning()) {
 				checkEvents();
+				removeDeadPhysicsObjects();
+				
 				try {
 					for (PhysicsObject object : physicsObjects) {
 						if (object instanceof Enemy) {
 							((Enemy) object).goTo(player.getPosition());
 						}
 					}
-					
+
 					world.step(GameState.TIME_STEP, GameState.VELOCITY_ITERATIONS,
 							GameState.POSITION_ITERATIONS);
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -76,7 +82,7 @@ public class Model implements Runnable {
 		}
 	}
 
-	public void checkEvents() {
+	private void checkEvents() {
 		synchronized (events) {
 			Iterator<TimedEvent> i = events.iterator();
 
@@ -93,10 +99,23 @@ public class Model implements Runnable {
 		}
 	}
 	
+	private void removeDeadPhysicsObjects() {
+		synchronized (toDelete) {
+			Iterator<PhysicsObject> i = toDelete.iterator();
+			
+			while (i.hasNext()) {
+				PhysicsObject object = (PhysicsObject) i.next();
+
+				this.removePhysicsObject(object);
+				i.remove();
+			}
+		}
+	}
+
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -108,19 +127,22 @@ public class Model implements Runnable {
 	public ArrayList<PhysicsObject> getGameObjects() {
 		return new ArrayList<PhysicsObject>(physicsObjects);
 	}
-	
+
 	public PhysicsObject getPhysicsObject(Body b) {
 		return bodyMap.get(b);
 	}
 
 	public void addPhysicsObject(PhysicsObject object) {
 		this.physicsObjects.add(object);
-		
 		object.getBody().setUserData(object);
 		this.bodyMap.put(object.getBody(), object);
 	}
+	
+	public void remove(PhysicsObject object) {
+		toDelete.add(object);
+	}
 
-	public void removePhysicsObject(PhysicsObject object) {
+	private void removePhysicsObject(PhysicsObject object) {
 		this.physicsObjects.remove(object);
 		world.destroyBody(object.getBody());
 		bodyMap.remove(object.getBody());

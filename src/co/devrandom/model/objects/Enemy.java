@@ -38,7 +38,7 @@ public class Enemy extends PhysicsObject implements Destructible {
 	
 	@Override
 	public void destroy() {
-		this.getModel().removePhysicsObject(this);
+		this.getModel().remove(this);
 	}
 	
 	@Override

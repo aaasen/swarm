@@ -3,7 +3,7 @@ package co.devrandom.model.events;
 import co.devrandom.model.Model;
 import co.devrandom.model.objects.PhysicsObject;
 
-public class DestroyPhysicsObject implements Triggerable{
+public class DestroyPhysicsObject implements Triggerable {
 
 	private PhysicsObject object;
 	private Model model;
@@ -14,7 +14,7 @@ public class DestroyPhysicsObject implements Triggerable{
 	}
 
 	public void trigger() {
-		model.removePhysicsObject(object);
+		model.remove(object);
 	}
 
 	@Override
