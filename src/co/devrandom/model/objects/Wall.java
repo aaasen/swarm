@@ -31,4 +31,8 @@ public class Wall extends PhysicsObject {
 			FD.shape(PhysicsObject.makeBoxShape(size)).build(),
 			 new TextureAttributes(TextureList.WALL));
 	}
+	
+	void onInit() {
+		
+	}
 }

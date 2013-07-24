@@ -32,6 +32,7 @@ public class Model implements Runnable {
 	private Player player;
 	private ContactListener collisionHandler;
 	private List<PhysicsObject> toDelete;
+	private List<PhysicsObject> toAdd;
 
 	public Model() {
 		elapsedTime = 0l;
@@ -45,11 +46,13 @@ public class Model implements Runnable {
 		collisionHandler.addListener(new ProjectileEnemyContactHandler());
 		world.setContactListener(collisionHandler);
 		toDelete = Collections.synchronizedList(new ArrayList<PhysicsObject>());
+		toAdd = Collections.synchronizedList(new ArrayList<PhysicsObject>());
 	}
 
 	public void run() {
 		LevelLoader loader = new LevelLoader(this, "arena.svg");
 		loader.loadObjects();
+		addPhysicsObjects();
 
 		while (true) {
 			lastFrame = System.currentTimeMillis();
@@ -61,8 +64,9 @@ public class Model implements Runnable {
 				e.printStackTrace();
 			}
 			if (GameState.isModelRunning()) {
-				checkEvents();
+				addPhysicsObjects();
 				removeDeadPhysicsObjects();
+				checkEvents();
 				
 				try {
 					for (PhysicsObject object : physicsObjects) {
@@ -95,6 +99,19 @@ public class Model implements Runnable {
 				} else {
 					break;
 				}
+			}
+		}
+	}
+
+	private void addPhysicsObjects() {
+		synchronized (toAdd) {
+			Iterator<PhysicsObject> i = toAdd.iterator();
+			
+			while (i.hasNext()) {
+				PhysicsObject object = (PhysicsObject) i.next();
+
+				this.addPhysicsObject(object);
+				i.remove();
 			}
 		}
 	}
@@ -132,7 +149,12 @@ public class Model implements Runnable {
 		return bodyMap.get(b);
 	}
 
-	public void addPhysicsObject(PhysicsObject object) {
+	public void add(PhysicsObject object) {
+		toAdd.add(object);
+	}
+	
+	private void addPhysicsObject(PhysicsObject object) {
+		object.init();
 		this.physicsObjects.add(object);
 		object.getBody().setUserData(object);
 		this.bodyMap.put(object.getBody(), object);

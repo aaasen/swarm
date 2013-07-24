@@ -40,6 +40,10 @@ public class Player extends PhysicsObject implements Destructible {
 		
 		health = size.x * size.y;
 	}
+	
+	void onInit() {
+		
+	}
 
 	public void friction(boolean on) {
 		if (on) {

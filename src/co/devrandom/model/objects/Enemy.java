@@ -36,6 +36,10 @@ public class Enemy extends PhysicsObject implements Destructible {
 		health = size.x * size.y;
 	}
 	
+	void onInit() {
+		
+	}
+	
 	@Override
 	public void destroy() {
 		this.getModel().remove(this);

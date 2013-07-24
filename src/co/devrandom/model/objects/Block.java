@@ -31,4 +31,8 @@ public class Block extends PhysicsObject {
 				FD.shape(PhysicsObject.makeBoxShape(size)).build(),
 				 new TextureAttributes(TextureList.BLOCK));
 	}
+	
+	void onInit() {
+		
+	}
 }

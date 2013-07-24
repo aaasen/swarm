@@ -16,16 +16,27 @@ import co.devrandom.main.GameState;
 import co.devrandom.model.Model;
 import co.devrandom.util.Vector;
 
-public class PhysicsObject {
+public abstract class PhysicsObject {
 	private Model model;
 	private TextureAttributes texAttributes;
-	private BodyDef bd;
 	private Body body;
 	private ArrayList<Shape> shapeList;
 
+	private BodyDef bd;
+	private FixtureDef[] fixtures;
+	
 	public PhysicsObject(Model model, BodyDef bd, FixtureDef[] fixtures, TextureAttributes texAttributes) {
 		this.model = model;
+		this.bd = bd;
+		this.fixtures = fixtures;
+		this.texAttributes = texAttributes;
+	}
 
+	public PhysicsObject(Model model, BodyDef bd, FixtureDef fixtures, TextureAttributes texAttributes) {
+		this(model, bd, new FixtureDef[] {fixtures}, texAttributes);
+	}
+	
+	public void init() {
 		body = model.getWorld().createBody(bd);
 		
 		Vector c1 = new Vector(Float.MAX_VALUE, Float.MAX_VALUE);
@@ -42,14 +53,13 @@ public class PhysicsObject {
 			c2.x = Math.max(corners[1].x, c2.x);
 			c2.y = Math.max(corners[1].y, c2.y);
 		}
-		
-		this.texAttributes = texAttributes;
-		texAttributes.setSize(c2.minus(c1).scale(GameState.SCALE));
-	}
 
-	public PhysicsObject(Model model, BodyDef bd, FixtureDef fixtures, TextureAttributes texAttributes) {
-		this(model, bd, new FixtureDef[] {fixtures}, texAttributes);
+		texAttributes.setSize(c2.minus(c1).scale(GameState.SCALE));
+	
+		onInit();
 	}
+	
+	abstract void onInit();
 
 	public Vec2[] getVertices() {
 		Vec2[] vertices = ((PolygonShape) body.getFixtureList().getShape()).getVertices();

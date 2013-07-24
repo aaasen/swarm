@@ -27,9 +27,18 @@ public class Projectile extends PhysicsObject {
 		.friction(FRICTION)
 		.restitution(RESTITUTION);
 	
-	public Projectile(Model model, Vector position, Vector size) {
-		super(model, BodyDefBuilder.setPosition(BD, position),
+	private Vector force;
+	
+	public Projectile(Model model, Vector position, Vector size, Vector force) {
+		super(model,
+				BodyDefBuilder.setPosition(BD, position),
 				FD.shape(PhysicsObject.makeBoxShape(size)).build(),
 				 new TextureAttributes(TextureList.PLAYER));
+		
+		this.force = force;
+	}
+	
+	void onInit() {
+		this.getBody().applyForceToCenter(force.toVec2());	
 	}
 }

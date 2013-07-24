@@ -65,7 +65,7 @@ public class LevelLoader {
 							model.setPlayer((Player) po);
 						}
 
-						model.addPhysicsObject(po);
+						model.add(po);
 					} catch(IllegalArgumentException e) {
 						GameState.LOGGER.log(Level.WARNING, "No object found for color: #" + color);
 					}

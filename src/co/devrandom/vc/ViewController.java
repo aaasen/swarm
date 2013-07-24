@@ -255,11 +255,10 @@ public class ViewController implements Runnable {
 					
 					Projectile proj = new Projectile(model,
 							new Vector(model.getPlayer().getBody().getPosition()).plus(direction),
-							new Vector(0.05f, 0.05f));
-
-					proj.applyForceToCenter(direction.scale(0.5f));
+							new Vector(0.05f, 0.05f),
+							direction.scale(0.5f));
 					
-					model.addPhysicsObject(proj);
+					model.add(proj);
 				}
 			}
 		}
